@@ -105,12 +105,6 @@ wbr
 			self.tags.append(TextCtrl("<!" + decl + ">"))
 
 
-def parse(html):
-	parser = CustomHTMLParser()
-	parser.feed(html)
-	#create objects from tags
-	return parser.tags
-
 
 class GenericCtrl():
 	def __init__(self, objData):
@@ -148,3 +142,8 @@ class TextCtrl():
 	def render(self):
 		return self.text
 
+def parse(html):
+	parser = CustomHTMLParser()
+	parser.feed(html)
+	#create objects from tags
+	return parser.tags

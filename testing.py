@@ -17,5 +17,13 @@ class winnerControl(pyForms.CustomControl):
 
 pyForms.registerControl("highlight", ctrlBold.Control)
 pyForms.registerControl("winner", winnerControl)
-#print(pyForms.render("<highlight server>This is a test</highlight>"))
-print(pyForms.render('<winner server odds="2">You are a winner!!<winner server odds="2">Double winner!</winner></winner>'))
+
+code = """
+	code:
+	<winner server odds="2">
+		<highlight server>You are a winner!!</highlight>
+		<winner server odds="3">Double winner!</winner>
+	</winner>
+"""
+myFirstWebpage = pyForms.Page(code)
+print(myFirstWebpage.render())

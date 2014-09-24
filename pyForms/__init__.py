@@ -1,4 +1,5 @@
 import pyForms.parser
+from pyForms.Page import Page
 from pyForms.controlManager import registerControl
 from pyForms.customControl import Base as CustomControl
 
