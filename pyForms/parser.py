@@ -4,6 +4,7 @@ import re
 from html.parser import HTMLParser
 
 import pyForms.controlManager
+import pyForms.CustomControl
 
 class CustomHTMLParser(HTMLParser):
 	def __init__(self):
@@ -106,20 +107,15 @@ wbr
 
 
 
-class GenericCtrl():
+class GenericCtrl(pyForms.CustomControl.Base):
 	def __init__(self, objData):
-		self.name = objData['name']
-		self.attrs = objData['attrs']
+		super().__init__(objData)
 		self.isSelfClosing = objData['isSelfClosing']
-		if not self.isSelfClosing:
-			self.innerHTML = objData['innerHTML']
-			
-			self.children = parse(self.innerHTML)
 
 	def render(self):
 
-		strContents  = '<' + self.name
-		for attr in self.attrs:
+		strContents  = '<' + self.tagname
+		for attr in self.attributes:
 			if attr[1] is not None:
 				strContents += ' ' + attr[0] + '="' + html.escape(attr[1]) + '"'
 			else:
@@ -131,16 +127,26 @@ class GenericCtrl():
 			strContents += '>'
 			for child in self.children:
 				strContents += child.render()
-			strContents += "</" + self.name + ">"
+			strContents += "</" + self.tagname + ">"
 		
 		return strContents
 
-class TextCtrl():
+class TextCtrl(pyForms.CustomControl.Base):
 	def __init__(self, text):
 		self.text = text
 
 	def render(self):
 		return self.text
+
+	#the default functionality wont work with this control
+	def setPageInstance(self, page):
+		pass
+
+	def onRequest(self):
+		pass
+
+	def fireEvents(self):
+		pass
 
 def parse(html):
 	parser = CustomHTMLParser()

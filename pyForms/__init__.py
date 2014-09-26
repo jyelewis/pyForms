@@ -1,9 +1,8 @@
-import pyForms.parser
 from pyForms.Page import Page
 from pyForms.controlManager import registerControl
-from pyForms.customControl import Base as CustomControl
+from pyForms.CustomControl import Base as CustomControl
+from pyForms.PageController import PageController
 
 
-def render(HTMLCode):
-	tree = pyForms.parser.parse(HTMLCode)
-	return "".join([x.render() for x in tree])
+from pyForms.servers.tornado import tornadoHandler
+

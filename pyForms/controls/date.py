@@ -1,8 +1,8 @@
 import datetime
 
-import pyForms.customControl
+import pyForms.CustomControl
 
-class Control(pyForms.customControl.Base):
+class Control(pyForms.CustomControl.Base):
 	def render(self):
 		today = datetime.date.today()
 		return today.strftime(self.innerHTML)

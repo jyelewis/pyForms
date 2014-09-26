@@ -1,29 +1,49 @@
 import pyForms
-import ctrlBold
+import tornado
+
+import customControls
+pyForms.registerControl("highlight", customControls.Highlight)
+pyForms.registerControl("winner", customControls.Winner)
 
 
-import random
-class winnerControl(pyForms.CustomControl):
-	def __init__(self, obj):
-		super().__init__(obj)
-		if not 'odds' in self.attributes:
-			raise Exception("odds property was not provided!")
-		self.odds = int(self.attributes['odds'])
-
-	def render(self):
-		if random.randint(1, self.odds) == 1:
-			return self.innerHTML
-		return ""
-
-pyForms.registerControl("highlight", ctrlBold.Control)
-pyForms.registerControl("winner", winnerControl)
 
 code = """
-	code:
-	<winner server odds="2">
+	<h1>Welcome to my humble website</h1>
+	<winner server odds="2" failtext="Not today, sorry">
 		<highlight server>You are a winner!!</highlight>
-		<winner server odds="3">Double winner!</winner>
+		<winner server odds="5">Double winner!</winner>
+		<script type="text/javascript">
+			/*alert('you are a winner!');
+			alert('<winner server odds="2">Double winner!</winner>');*/
+		</script>
+		
 	</winner>
 """
-myFirstWebpage = pyForms.Page(code)
-print(myFirstWebpage.render())
+
+class myPageController(pyForms.PageController):
+	def onInit(self):
+		print("page inited!")
+
+	def onLoad(self):
+		print("page loaded!")
+
+	def onPrerender(self):
+		print("page prerendered?")
+
+myFirstWebpage = pyForms.Page(code, myPageController)
+
+
+
+#START WEB SERVERY STUFF
+import tornado.ioloop
+import tornado.web
+
+
+application = tornado.web.Application([
+    (r"/", pyForms.tornadoHandler(myFirstWebpage)),
+])
+
+application.listen(8888)
+tornado.ioloop.IOLoop.instance().start()
+
+
