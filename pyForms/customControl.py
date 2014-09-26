@@ -7,13 +7,19 @@ class Base:
 		self.children = pyForms.parser.parse(self.rawInnerHTML)
 		self.pageInstance = None
 
+		self.id = None
+		if 'id' in self.attributes:
+			self.id = self.attributes['id']
+
+
 		self._innerHTML = None
-		
 
-		self.registerChildren()
+	def registerChildren(self): #this is its own function so it can be easily overwritten
+		for child in self.children:
+			child.registerID()
 
-	def registerChildren(self):
-		pass #will register all children to the page obj at some point
+	def registerID(self):
+		self.pageInstance.registerControl(self)
 
 	@property
 	def innerHTML(self):
@@ -26,6 +32,7 @@ class Base:
 		self.pageInstance = pageInstance
 		for child in self.children:
 			child.setPageInstance(pageInstance)
+		self.registerChildren() #register here becuase it registers to the page instance
 
 	#control event functions
 	def onRequest(self):

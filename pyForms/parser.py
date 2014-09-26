@@ -134,12 +134,19 @@ class GenericCtrl(pyForms.CustomControl.Base):
 class TextCtrl(pyForms.CustomControl.Base):
 	def __init__(self, text):
 		self.text = text
+		self.id = None
 
 	def render(self):
 		return self.text
 
 	#the default functionality wont work with this control
 	def setPageInstance(self, page):
+		pass
+
+	def registerChildren(self):
+		pass
+
+	def registerID(self):
 		pass
 
 	def onRequest(self):

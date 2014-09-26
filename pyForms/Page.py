@@ -50,14 +50,18 @@ class PageInstance():
 		self.page = page
 		self.controller = None
 
+		self.controls = {}
+
+		#init controller class
 		if self.page.clsController is not None:
 			self.controller = page.clsController(self)
 
 		#this is so we can move the tree genreation later
-		self.tree = self.page.tree
+		self.tree = self.page.tree[:] #copy the tree local
 		
 		for control in self.tree:
 			control.setPageInstance(self) #this is recursive and will pass down the tree
+			control.registerID() #the root objects need to be registered manually
 
 		#life cycle 1 - init controller
 		if self.controller:
@@ -90,6 +94,13 @@ class PageInstance():
 
 		#done with the request, dont keep it around
 		self.request = None
+
+	def registerControl(self, control):
+		if control.id is not None:
+			if control.id in self.controls:
+				raise Exception("ID registered twice!")
+			else:
+				self.controls[control.id] = control
 
 	def render(self):
 		return "".join([x.render() for x in self.tree])

@@ -8,15 +8,8 @@ pyForms.registerControl("winner", customControls.Winner)
 
 
 code = """
-	<h1>Welcome to my humble website</h1>
-	<winner server odds="2" failtext="Not today, sorry">
+	<winner server odds="2000" failtext="Not today, sorry" id="mainWinner">
 		<highlight server>You are a winner!!</highlight>
-		<winner server odds="5">Double winner!</winner>
-		<script type="text/javascript">
-			/*alert('you are a winner!');
-			alert('<winner server odds="2">Double winner!</winner>');*/
-		</script>
-		
 	</winner>
 """
 
@@ -26,6 +19,7 @@ class myPageController(pyForms.PageController):
 
 	def onLoad(self):
 		print("page loaded!")
+		self.page.controls["mainWinner"].odds = 1
 
 	def onPrerender(self):
 		print("page prerendered?")
