@@ -18,6 +18,7 @@ class TextCtrl(pyForms.CustomControl.Base):
 	def __init__(self, text):
 		self.text = text
 		self.id = None
+		self.tagname = None
 
 	def render(self):
 		return self.text
@@ -84,7 +85,7 @@ wbr
 			if self.depth == 1:
 				self.curTag = {
 					'name': tag.lower()
-					,'attrs': attrs
+					,'attrs': dict(attrs)
 					,'startContentsPos': None
 					,'endContentsPos': None
 					,'innerHTML': None
@@ -120,7 +121,7 @@ wbr
 
 					self.curTag['innerHTML'] = "\n".join(dataRows)
 
-				if 'server' in dict(self.curTag['attrs']):
+				if 'server' in self.curTag['attrs']:
 					if self.curTag['name'] in pyForms.controlManager.allControls:
 						self.tags.append(pyForms.controlManager.allControls[self.curTag['name']](self.curTag))
 					else:

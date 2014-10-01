@@ -3,10 +3,8 @@ import random
 import pyForms.parser
 
 class Page():
-	def __init__(self, code, clsController = None):
-		self.code = code
+	def __init__(self, clsController):
 		self.clsController = clsController
-
 		self.pageInstances = {}
 
 	def handleRequest(self, request, response):
@@ -49,11 +47,13 @@ class PageInstance():
 		if self.page.clsController is not None:
 			self.controller = page.clsController(self)
 
-		self.tree = pyForms.parser.parse(self.page.code, self)
+		#get the code
+		self.code = self.controller.pageCode()
+
+		self.tree = pyForms.parser.parse(self.code, self)
 
 		#life cycle 1 - init controller
-		if self.controller:
-			self.controller.onInit()
+		self.controller.onInit()
 
 	def handleRequest(self, request, response):
 		#page life cycle all happens here
@@ -66,16 +66,14 @@ class PageInstance():
 			control.onRequest()
 
 		#3 - controller load event
-		if self.controller:
-			self.controller.onLoad()
+		self.controller.onLoad()
 
 		#4 - fire control events
 		for control in self.tree:
 			control.fireEvents()
 
 		#5 - controller pre-render event
-		if self.controller:
-			self.controller.onPrerender()
+		self.controller.onPrerender()
 
 		#6 - render page and write response
 		response.write(self.render())

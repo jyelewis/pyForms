@@ -13,5 +13,6 @@ registerControl("Textbox", pyForms.controls.Textbox.Control)
 
 import pyForms.controls.Button
 registerControl("Button", pyForms.controls.Button.Control)
-#import pyForms.controls.date
-#registerControl("date", pyForms.controls.date.Control)
+
+import pyForms.controls.html
+registerControl("html", pyForms.controls.html.Control)
