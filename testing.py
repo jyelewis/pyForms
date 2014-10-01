@@ -30,17 +30,13 @@ code = """
 
 class myPageController(pyForms.PageController):
 	def onInit(self):
-		self.pageStr = str(random.randint(1, 100))
+		pass
 
 	def onLoad(self):
 		self.page.controls["randLink"].innerHTML = "This is a <highlight id='hideMe' server>link</highlight> to " + html.escape(self.page.controls['tbxLink'].text)
-
-		print(self.page.controls)
-		test = self.page.controls['hideMe']
 		self.page.controls['hdnPostBack'].attributes["value"] = self.page.id
 
 	def btnTextarea_click(self):
-		btnTextarea = self.page.controls['btnTextarea']
 		textarea = self.page.controls['mahTextarea']
 		if textarea.type == "singleline":
 			textarea.type = "textarea"
