@@ -7,13 +7,10 @@ class Base:
 		self.attributes = dict(ctrlData['attrs'])
 		self.tagname = ctrlData['name']
 
-
-
 		#configure ID
 		self.id = None
 		if 'id' in self.attributes:
 			self.id = self.attributes['id']
-
 
 		#link pageInstance (depends: ID)
 		self.pageInstance = ctrlData['pageInstance']
@@ -70,7 +67,11 @@ class Base:
 		handlerName = self.id + "_" + eventName
 		handler = getattr(self.pageInstance.controller, handlerName, None)
 		if callable(handler):
-		    return handler
+			def callHandler(*args):
+				args = list(args)
+				args.insert(0, self.pageInstance.controlsReferenceObj)
+				handler(*args)
+			return callHandler
 		else:
 			return None
 

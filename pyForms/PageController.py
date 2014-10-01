@@ -2,13 +2,13 @@ class PageController:
 	def __init__(self, page):
 		self.page = page
 
-	def onInit(self):
+	def onInit(self, ctrls):
 		pass
 
-	def onLoad(self):
+	def onLoad(self, ctrls):
 		pass
 
-	def onPrerender(self):
+	def onPrerender(self, ctrls):
 		pass
 
 	def setHTMLFile(self):

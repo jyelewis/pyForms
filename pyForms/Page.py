@@ -40,6 +40,7 @@ class PageInstance():
 		self.id = str(random.randint(100000, 999999))
 		self.page = page
 		self.controller = None
+		self.controlsReferenceObj = controlsReference(self)
 
 		self.controls = {}
 
@@ -53,7 +54,7 @@ class PageInstance():
 		self.tree = pyForms.parser.parse(self.code, self)
 
 		#life cycle 1 - init controller
-		self.controller.onInit()
+		self.controller.onInit(self.controlsReferenceObj)
 
 	def handleRequest(self, request, response):
 		#page life cycle all happens here
@@ -66,14 +67,14 @@ class PageInstance():
 			control.onRequest()
 
 		#3 - controller load event
-		self.controller.onLoad()
+		self.controller.onLoad(self.controlsReferenceObj)
 
 		#4 - fire control events
 		for control in self.tree:
 			control.fireEvents()
 
 		#5 - controller pre-render event
-		self.controller.onPrerender()
+		self.controller.onPrerender(self.controlsReferenceObj)
 
 		#6 - render page and write response
 		response.write(self.render())
@@ -91,6 +92,17 @@ class PageInstance():
 	def render(self):
 		return "".join([x.render() for x in self.tree])
 
+
+#------------------------------------------------------------
+class controlsReference:
+	def __init__(self, pageInstance):
+		self.pageInstance = pageInstance
+
+	def __getattr__(self, controlID):
+		if controlID in self.pageInstance.controls:
+			return self.pageInstance.controls[controlID]
+		else:
+			return None
 
 
 #before: tags dont reexecute between renders

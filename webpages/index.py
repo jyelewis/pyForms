@@ -4,10 +4,17 @@ class controller(pyForms.PageController):
 	def setHTMLFile(self):
 		self.htmlFile = "webpages/index.html"
 
-	def btnGo_click(self):
-		tbxName = self.page.controls["tbxName"]
-		pHello = self.page.controls['pHello']
-		if tbxName.text == "":
-			pHello.innerHTML = "You didnt enter anything!"
+	def onLoad(self, ctrls):
+		#set defaults
+		ctrls.pHello.text = ""
+		ctrls.pHello.visible = True
+		ctrls.divWinner.visible = False
+
+	def btnGo_click(self, ctrls):
+		if ctrls.tbxName.text == "":
+			ctrls.pHello.innerHTML = "You didnt enter anything!"
+		elif ctrls.tbxName.text.lower() == "jye":
+			ctrls.divWinner.visible = True
+			ctrls.pHello.visible = False
 		else:
-			pHello.innerHTML = "Hello, " + tbxName.text
+			ctrls.pHello.innerHTML = "Hello, " + ctrls.tbxName.text

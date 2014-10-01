@@ -4,11 +4,19 @@
 		<title>This is a test website</title>
 	</head>
 	<body>
-		<h1>This is my website</title>
+		<h1>This is my website</h1>
+
+		<textbox server type="textarea" placeholder="use this to keep notes" />
+
+		<br />
+
 		Please enter your name: <textbox server id="tbxName" />
 		<button server id="btnGo">Go!</button>
 
 		<br>
 		<p id="pHello"></p>
+		<div id="divWinner" visible="false">
+			<h1>YOU ARE A WINNER</h1>
+		</div>
 	</body>
 </html>
