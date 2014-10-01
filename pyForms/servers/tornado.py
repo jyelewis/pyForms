@@ -1,3 +1,4 @@
+import binascii
 import tornado.web
 
 import pyForms.network
@@ -6,9 +7,17 @@ class Request(pyForms.network.Request):
 	@classmethod
 	def fromTornado(cls, tornadoObj):
 		request = cls()
-		#print(dir(tornadoObj))
-		#print(tornadoObj.get_arguments())
-		request.url = tornadoObj.static_url
+
+		#these are taking the same feed. Which has all arguments, fix when smarter
+		allArgs = {}
+		for key in tornadoObj.request.arguments:
+			#this cannot be efficent
+			allArgs[key] = tornadoObj.request.arguments[key][0].decode("utf-8")
+
+		request.get  = allArgs
+		request.post = allArgs
+
+		#request.url = tornadoObj.static_url
 		return request
 
 
@@ -38,7 +47,7 @@ def tornadoHandler(page): #returns handler class
 			page.handleRequest(request, response)
 
 		def post(self):
-			self.get(self)
+			self.get()
 
 	return pyFormsTornadoRequestHandler
 

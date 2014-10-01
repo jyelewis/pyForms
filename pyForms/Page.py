@@ -7,14 +7,7 @@ class Page():
 		self.code = code
 		self.clsController = clsController
 
-		if self.clsController is not None:
-			self.controller = clsController(self)
-
 		self.pageInstances = {}
-
-		#when the tree generating becomes dynamic this can be moved into pageInstace
-		#for now, the generation can be done once. Its more efficent
-		self.tree = pyForms.parser.parse(self.code)
 
 	def handleRequest(self, request, response):
 		#check if instance already exists and use that if it does
@@ -46,7 +39,7 @@ class Page():
 
 class PageInstance():
 	def __init__(self, page):
-		self.id = random.randint(100000, 999999)
+		self.id = str(random.randint(100000, 999999))
 		self.page = page
 		self.controller = None
 
@@ -56,12 +49,7 @@ class PageInstance():
 		if self.page.clsController is not None:
 			self.controller = page.clsController(self)
 
-		#this is so we can move the tree genreation later
-		self.tree = self.page.tree[:] #copy the tree local
-		
-		for control in self.tree:
-			control.setPageInstance(self) #this is recursive and will pass down the tree
-			control.registerID() #the root objects need to be registered manually
+		self.tree = pyForms.parser.parse(self.page.code, self)
 
 		#life cycle 1 - init controller
 		if self.controller:
