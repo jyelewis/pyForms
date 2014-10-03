@@ -34,6 +34,12 @@ class Base:
 			self.visible = (self.attributes['visible'].lower() == "true")
 			del self.attributes['visible']
 
+		#autoPostBack - posts back when interacted with
+		self.autoPostBack = False
+		if 'autopostback' in self.attributes:
+			self.autoPostBack = (self.attributes['autopostback'].lower() == "true")
+			del self.attributes['autopostback']
+		self.autoPostBackEvent = "click"
 
 		
 	#TODO: this property cant use +=, should be able to
@@ -78,11 +84,21 @@ class Base:
 	def render(self):
 		if not self.visible:
 			return ""
+
+		attrs = self.attributes.copy()
+		if self.autoPostBack:
+			if 'on'+self.autoPostBackEvent in attrs:
+				attrs['on'+self.autoPostBackEvent] += ";"
+			else:
+				attrs['on'+self.autoPostBackEvent] = ""
+
+			attrs['on'+self.autoPostBackEvent] += 'document.getElementById("pyForms__postbackForm").submit()'
+
 		strContents  = '<' + self.tagname
-		for attr in self.attributes:
+		for attr in attrs:
 			if attr == "server":
 				continue #dont add the server attribute
-			value = self.attributes[attr] #TODO: There is a way to properly enumerate keys + values
+			value = attrs[attr] #TODO: There is a way to properly enumerate keys + values
 			if value is not None:
 				strContents += ' ' + str(attr) + '="' + html.escape(str(value)) + '"'
 			else:

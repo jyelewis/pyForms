@@ -1,22 +1,37 @@
-<!DOCUTYPE html>
+<!DOCTYPE html>
 <html server>
 	<head>
-		<title>This is a test website</title>
+		<title id="title">This is a test website</title>
 	</head>
-	<body>
+	<body id="bodyTag">
 		<h1>This is my website</h1>
 
 		<textbox server type="textarea" placeholder="use this to keep notes" />
+		<button server>do a post back!</button>
 
 		<br />
 
-		Please enter your name: <textbox server id="tbxName" />
-		<button server id="btnGo">Go!</button>
+		Please enter your name: <textbox server autopostback="true" id="tbxName" />
 
-		<br>
+		<br />
 		<p id="pHello"></p>
 		<div id="divWinner" visible="false">
 			<h1>YOU ARE A WINNER</h1>
 		</div>
+
+		<br /><br />
+
+		<button server id="btnToggleColourButtons"></button>
+		<br /><br /><br />
+		<panel server id="pnlButtons">
+			<button server id="btnRed">Make it red!</button>
+			<button server id="btnBlue">Make it blue!</button>
+			<button server id="btnRandomColour">Random colour</button>
+
+			<p>
+				Enter a custom colour:
+				<textbox server id="tbxCustomColour" autopostback="true" />
+			</p>
+		</panel>
 	</body>
 </html>

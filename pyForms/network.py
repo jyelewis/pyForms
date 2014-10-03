@@ -6,6 +6,14 @@ class Request():
 		self.get = {}
 		self.post = {}
 
+		self._isPostBack = None
+
+	@property
+	def isPostBack(self):
+		if self._isPostBack is None:
+			self._isPostBack = ('pyForms__postbackInstanceID' in self.post)
+		return self._isPostBack
+
 
 class Response():
 	def __init__(self):

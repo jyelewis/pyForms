@@ -18,6 +18,14 @@ class Control(pyForms.CustomControl.Base):
 		self.attributes['name'] = self.name
 		self.clickHandler = self.getEventHandler("click")
 
+	@property
+	def text(self):
+		return self.innerHTML
+
+	@text.setter
+	def text(self, newVal):
+		self.innerHTML = newVal
+
 	def fireEvents(self):
 		if self.name in self.pageInstance.request.post and self.clickHandler:
 			self.clickHandler()

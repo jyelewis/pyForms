@@ -12,7 +12,7 @@ class Control(pyForms.CustomControl.Base):
 		#wrap the contents of the body inside a form tag
 		formTag = pyForms.parser.GenericCtrl({
 			'name': "form"
-			,'attrs': { 'method': 'POST' }
+			,'attrs': { 'method': 'POST', 'id': 'pyForms__postbackForm' }
 			,'innerHTML': None
 			,'pageInstance': self.pageInstance
 			,'isSelfClosing': False

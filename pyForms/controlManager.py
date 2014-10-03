@@ -16,3 +16,6 @@ registerControl("Button", pyForms.controls.Button.Control)
 
 import pyForms.controls.html
 registerControl("html", pyForms.controls.html.Control)
+
+import pyForms.controls.Panel
+registerControl("Panel", pyForms.controls.Panel.Control)
