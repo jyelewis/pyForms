@@ -3,7 +3,7 @@ import pyForms
 
 class controller(pyForms.PageController):
 	def setHTMLFile(self):
-		self.htmlFile = "webpages/index.html"
+		self.HTMLFile = "webpages/index.html"
 
 	def onInit(self, ctrls):
 		self.showingButtons = False

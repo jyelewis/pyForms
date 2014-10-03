@@ -15,13 +15,13 @@ class PageController:
 		raise NotImplementedError("setHTMLFile is not implemented")
 
 	def pageCode(self):
-		if not hasattr(self, 'htmlFile'):
+		if not hasattr(self, 'HTMLFile'):
 			self.setHTMLFile()
 
-		if not hasattr(self, 'htmlFile'):
-			raise Exception("setHTMLFile didn't set self.htmlFile !")
+		if not hasattr(self, 'HTMLFile'):
+			raise Exception("setHTMLFile didn't set self.HTMLFile !")
 
-		file = open(self.htmlFile, 'r')
+		file = open(self.HTMLFile, 'r')
 		retValue = file.read()
 		file.close()
 		return retValue

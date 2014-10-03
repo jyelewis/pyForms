@@ -16,6 +16,7 @@ class Control(pyForms.CustomControl.Base):
 			,'innerHTML': None
 			,'pageInstance': self.pageInstance
 			,'isSelfClosing': False
+			,'customRegisterFunction': None
 		})
 		formTag.children = self.body.children
 		
@@ -30,6 +31,7 @@ class Control(pyForms.CustomControl.Base):
 			,'innerHTML': None
 			,'pageInstance': self.pageInstance
 			,'isSelfClosing': True
+			,'customRegisterFunction': None
 		})
 		formTag.children.insert(0, hiddenTag)
 

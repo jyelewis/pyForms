@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html server>
+	<head>
+		<title>
+			Chat! - <panel server id="pnlName">Not logged in</panel>
+		</title>
+		<script type="text/ecmascript">
+		setInterval(function(){
+			if (document.getElementById("tbxMessage").value == "") {
+				document.getElementById("pyForms__postbackForm").submit();
+			}
+		}, 2000);
+		</script>
+	</head>
+	<body>
+		<panel server id="pnlLogin">
+			<h1>Please enter your name: </h1>
+			<textbox server id="tbxName" placeholder="John Smith" />
+			<panel server id="pnlLoginError" visible="false">
+				Error! Username already taken
+			</panel>
+			<button server id="btnLogin">Login</button>
+		</panel>
+
+		<panel server id="pnlChat" visible="false">
+			<loop server id="lpMessages">
+				<div class="message">
+					<div class="messageText" id="messageText">No messages!</div>
+					<div class="saidBy" id="saidBy"></div>
+				</div>
+			</loop>
+			
+			<br />
+
+			<div id="addMessage">
+				<textbox server type="textarea" placeholder="Message" id="tbxMessage" />
+				<button server id="btnSendMessage">Send message</button>
+			</div>
+		</panel>
+	</body>
+</html>

@@ -19,3 +19,6 @@ registerControl("html", pyForms.controls.html.Control)
 
 import pyForms.controls.Panel
 registerControl("Panel", pyForms.controls.Panel.Control)
+
+import pyForms.controls.Loop
+registerControl("Loop", pyForms.controls.Loop.Control)

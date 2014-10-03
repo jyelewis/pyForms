@@ -14,6 +14,8 @@ pyForms.registerControl("winner", customControls.Winner)
 import webpages.index
 myFirstWebpage = pyForms.Page(webpages.index.controller)
 
+import webpages.chat
+chatPage = pyForms.Page(webpages.chat.controller)
 
 
 #START WEB SERVERY STUFF
@@ -23,6 +25,7 @@ import tornado.web
 
 application = tornado.web.Application([
     (r"/", pyForms.tornadoHandler(myFirstWebpage)),
+    (r"/chat", pyForms.tornadoHandler(chatPage)),
 ])
 
 application.listen(8888)

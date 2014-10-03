@@ -41,7 +41,7 @@ class TextCtrl(pyForms.CustomControl.Base):
 
 
 
-def parse(html, pageInstance):
+def parse(html, pageInstance, customRegisterFunction = None):
 	#we define the class in here so it can access the pageInstance var
 	class CustomHTMLParser(HTMLParser):
 		def __init__(self):
@@ -91,6 +91,7 @@ wbr
 					,'innerHTML': None
 					,'isSelfClosing': None
 					,'pageInstance': pageInstance
+					,'customRegisterFunction': customRegisterFunction
 				}
 			if tag in self.selfClosingTags:
 				self.handle_endtag(tag, True)

@@ -14,16 +14,20 @@ class Base:
 
 		#link pageInstance (depends: ID)
 		self.pageInstance = ctrlData['pageInstance']
-		self.pageInstance.registerControl(self)
+		if ctrlData['customRegisterFunction'] is not None:
+			ctrlData['customRegisterFunction'](self)
+		else:
+			self.pageInstance.registerControl(self)
 
 		#process children elements (depends: pageInstance)
 		if self.rawInnerHTML:
-			self.children = pyForms.parser.parse(self.rawInnerHTML, self.pageInstance)
+			self.children = pyForms.parser.parse(self.rawInnerHTML, self.pageInstance, ctrlData['customRegisterFunction'])
 		else:
 			self.children = []
 
 		#cashe vars
-		self._innerHTML = None
+		#DO NOT CASHE INNER HTML, IT MAY CHANGE IF AN INNER CONTROL IS CHANGED
+		#self._innerHTML = None
 
 
 		#generic attributes of all controls
@@ -41,13 +45,12 @@ class Base:
 			del self.attributes['autopostback']
 		self.autoPostBackEvent = "click"
 
-		
+
 	#TODO: this property cant use +=, should be able to
+	#NOTE: Do not cashe this property
 	@property
 	def innerHTML(self):
-		if self._innerHTML is None:
-			self._innerHTML = "".join([x.render() for x in self.children])
-		return self._innerHTML
+		return "".join([x.render() for x in self.children])
 
 	@innerHTML.setter
 	def innerHTML(self, newHTML): #do this via property when youre smart enough to
