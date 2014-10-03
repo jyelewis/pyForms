@@ -11,14 +11,34 @@
 			}
 		}, 2000);
 		</script>
+		<style>
+			* {
+				box-sizing:border-box;
+			}
+			.message {
+				padding:15px;
+				width:250px;
+			}
+			.message .saidBy {
+				font-size:13px;
+				float:right;
+			}
+			.message:nth-child(odd) {
+				background-color:#ddd;
+			}
+			textarea, input {
+				width:250px;
+			}
+		</style>
 	</head>
 	<body>
 		<panel server id="pnlLogin">
 			<h1>Please enter your name: </h1>
 			<textbox server id="tbxName" placeholder="John Smith" />
 			<panel server id="pnlLoginError" visible="false">
-				Error! Username already taken
+				<br />Error! Username already taken
 			</panel>
+			<br />
 			<button server id="btnLogin">Login</button>
 		</panel>
 
@@ -27,6 +47,7 @@
 				<div class="message">
 					<div class="messageText" id="messageText">No messages!</div>
 					<div class="saidBy" id="saidBy"></div>
+					<div style="clear:both;"></div>
 				</div>
 			</loop>
 			
@@ -34,6 +55,7 @@
 
 			<div id="addMessage">
 				<textbox server type="textarea" placeholder="Message" id="tbxMessage" />
+				<br />
 				<button server id="btnSendMessage">Send message</button>
 			</div>
 		</panel>

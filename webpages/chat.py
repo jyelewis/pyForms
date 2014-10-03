@@ -9,10 +9,8 @@ class controller(pyForms.PageController):
 
 	def onInit(self, ctrls):
 		self.username = None
-
 		#bind the loop
 		ctrls.lpMessages.dataSource = messages
-
 
 	def onPrerender(self, ctrls):
 		#get latest message
@@ -21,7 +19,6 @@ class controller(pyForms.PageController):
 
 		if self.isLoggedIn and len(messages) > 0:
 			ctrls.lpMessages.update()
-
 
 	@property
 	def isLoggedIn(self):

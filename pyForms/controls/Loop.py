@@ -22,8 +22,14 @@ class Control(pyForms.CustomControl.Base):
 		controlsDict = {}
 		controlsReference = ControlsReference(controlsDict)
 
+		registerID = 1
+
 		def customRegisterFunction(controlToRegister):
+			nonlocal registerID
 			if controlToRegister.id is not None:
+				controlToRegister.attributes['id'] = self.id + "_" + controlToRegister.id + "_" + str(registerID)
+				registerID += 1
+
 				controlsDict[controlToRegister.id] = controlToRegister
 
 		for index, item in enumerate(self.dataSource):
