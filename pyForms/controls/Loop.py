@@ -5,7 +5,6 @@ import pyForms.parser
 
 class Control(pyForms.CustomControl.Base):
 	def __init__(self, obj):
-		#obj['customRegisterFunction'] = self.customRegisterFunction
 		rawInnerHTML = obj['innerHTML']
 		obj['innerHTML'] = None #make sure the children arent processed
 		super().__init__(obj)
@@ -19,30 +18,60 @@ class Control(pyForms.CustomControl.Base):
 
 	def update(self):
 		self.loops = []
+
+		for item in self.dataSource:
+			self._appendToLoops(item)
+
+	def reconfigure(self):
+		if self.configureLoopHandler:
+			for index, item in enumerate(self.loops):
+				self.loops[index][0] = index #update indexes
+
+				self.configureLoopHandler(item[3], item[1], item[0])
+
+	def remove(self, index):
+		del self.dataSource[index]
+		del self.loops[index]
+
+	def append(self, item):
+		self.dataSource.append(item)
+		self._appendToLoops(item)
+
+
+	def _appendToLoops(self, item):
 		controlsDict = {}
 		controlsReference = ControlsReference(controlsDict)
 
-		registerID = 1
+		index = len(self.loops)
 
 		def customRegisterFunction(controlToRegister):
-			nonlocal registerID
+			nonlocal index
 			if controlToRegister.id is not None:
-				controlToRegister.attributes['id'] = self.id + "_" + controlToRegister.id + "_" + str(registerID)
-				registerID += 1
-
+				controlToRegister.attributes['id'] = self.id + "_" + controlToRegister.id + "_" + str(index)
 				controlsDict[controlToRegister.id] = controlToRegister
 
-		for index, item in enumerate(self.dataSource):
-			controls = pyForms.parser.parse(self.rawInnerHTML, self.pageInstance, customRegisterFunction)
-			self.loops.append((
-				 index
-				,item
-				,controls
-				,controlsDict
-			))
+		controls = pyForms.parser.parse(self.rawInnerHTML, self.pageInstance, customRegisterFunction)
+		self.loops.append([
+			 index
+			,item
+			,controls
+			,controlsReference
+		])
 
-			if self.configureLoopHandler:
-				self.configureLoopHandler(controlsReference, item, index)
+		if self.configureLoopHandler:
+			self.configureLoopHandler(controlsReference, item, index)
+
+	def onRequest(self):
+		#forward to all children
+		for loop in self.loops:
+			for control in loop[2]:
+				control.onRequest()
+
+	def fireEvents(self):
+		#forward to all children
+		for loop in self.loops:
+			for control in loop[2]:
+				control.fireEvents()
 
 	def render(self):
 		renderCode = ""
@@ -51,6 +80,7 @@ class Control(pyForms.CustomControl.Base):
 
 
 		return renderCode
+
 
 
 class ControlsReference:

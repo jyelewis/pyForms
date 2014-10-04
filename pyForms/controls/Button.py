@@ -13,7 +13,7 @@ class Control(pyForms.CustomControl.Base):
 
 		self.name = str(random.randint(100,999))
 		if self.id is not None:
-			self.name = self.id + "_" + self.name
+			self.name = self.attributes['id'] + "_" + self.name
 
 		self.attributes['name'] = self.name
 		self.clickHandler = self.getEventHandler("click")

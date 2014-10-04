@@ -9,12 +9,16 @@ class Control(pyForms.CustomControl.Base):
 		self.text = ""
 		self.name = str(random.randint(100,999))
 		if self.id is not None:
-			self.name = self.id + "_" + self.name
+			self.name = self.attributes['id'] + "_" + self.name
 
 		self.type = "singleline"
 		if "type" in self.attributes:
 			self.type = self.attributes['type']
 			del self.attributes['type'] #dont keep it around
+
+		if "text" in self.attributes:
+			self.text = self.attributes['text']
+			del self.attributes['text'] #dont keep it around
 
 		self.changeHandler = self.getEventHandler("change")
 
