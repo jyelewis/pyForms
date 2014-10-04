@@ -1,4 +1,5 @@
 import random
+import sys
 
 import pyForms
 import tornado
@@ -32,7 +33,8 @@ application = tornado.web.Application([
     (r"/loopTesting", pyForms.tornadoHandler(loopTestingPage)),
 ])
 
-application.listen(8888)
+portNumber = sys.argv[1] if len(sys.argv) > 1 else 8888
+application.listen(portNumber)
 tornado.ioloop.IOLoop.instance().start()
 
 

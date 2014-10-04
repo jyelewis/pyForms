@@ -7,8 +7,9 @@ class Controller(pyForms.PageController):
 	def onInit(self, ctrls):
 		ctrls.lpItems.dataSource = []
 
-	def onPrerender(self, ctrls):
-		ctrls.pnlCount.innerHTML = str(len(ctrls.lpItems.dataSource))
+	@property
+	def itemCount(self):
+		return len(self.page.controls['lpItems'].dataSource)
 
 	def btnNew_click(self, ctrls):
 		ctrls.lpItems.append("")
