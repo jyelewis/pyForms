@@ -27,7 +27,7 @@ class Control(pyForms.ControlBase.Base):
 		self.loops = []
 
 		for item in self.dataSource:
-			self._appendToLoops(item, False)
+			self._appendToLoops(item)
 
 
 	def reconfigure(self):
