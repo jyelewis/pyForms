@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html server>
+	<head>
+		<style>
+			* {
+				box-sizing:border-box;
+				font-family:Arial;
+			}
+			html, body, form {
+				margin:0;
+				padding:0;
+				height:100%;
+			}
+			#testingFrame {
+				width:calc(100% - 300px);
+				float:left;
+				height:100%;
+			}
+			#testingSidebar {
+				width:300px;
+				float:right;
+				height:100%;
+				padding:10px;
+			}
+			#iframeTesting {
+				width:100%;
+				height:100%;
+				border:none;
+			}
+			ul {
+				list-style:none;
+				padding:0;
+				margin:0;
+			}
+			.liTestText { 
+				padding:5px;
+				font-size:18px;
+				margin-bottom:3px;
+				background-color:#ffa;
+			}
+			.liTestText.passed {
+				background-color:#8c8;
+			}
+			.liTestText.failed {
+				background-color:#c88;
+				font-weight:bold;
+			}
+			.liTestText.current {
+				padding-left:15px;
+				font-size:20px;
+				text-decoration:underline;
+			}
+			textarea {
+				width:100%;
+				height:100px;
+			}
+			input[type=submit]{
+				font-size:18px;
+				padding:3px;
+				margin:5px;
+			}
+			#divSummary {
+				position:absolute;
+				top:100px;
+				left:200px;
+				right:200px;
+				bottom:100px;
+				background-color:white;
+				border:2px solid #aaa;
+				border-radius:5px;
+				padding:30px;
+			}
+			#divSummary pre {
+				font-family:monospace !important;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="divSummary" visible="false">
+			<pre id="preSummary"></pre>
+			<br />
+			<button server id="btnSummaryClose">Close</button>
+		</div>
+
+		<div id="testingFrame">
+			<iframe src="" id="iframeTesting"></iframe>
+		</div>
+
+		<div id="testingSidebar">
+			<ul>
+				<loop server id="lpTests">
+					<li id="liTestText" class="liTestText"></li>
+				</loop>
+			</ul>
+
+			<button server id="btnPass">Passing</button> 
+			<button server id="btnFail">Failing</button>
+			<br />
+			<button server id="btnPrev">< Prev</button> 
+			<button server id="btnNext">Next ></button>
+			<br />
+			<button server>Reload test</button>
+			<button server id="btnSummary">Generate summary</button>
+
+			<br /><br />
+			<textbox server type="textarea" id="tbxTestNotes" placeholder="Test notes" />
+			<br />
+			<textbox server type="textarea" placeholder="Summary notes" id="tbxSummaryNotes" />
+		</div>
+	</body>
+</html>
+
+
+

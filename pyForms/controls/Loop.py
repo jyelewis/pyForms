@@ -10,11 +10,21 @@ class Control(pyForms.ControlBase.Base):
 		super().__init__(obj)
 		self.rawInnerHTML = rawInnerHTML
 
-		self.dataSource = []
+		self._dataSource = []
 		
 		self.loops = []
 
 		self.configureLoopHandler = self.getEventHandler("configureLoop")
+
+
+	@property
+	def dataSource(self):
+		return self._dataSource
+
+	@dataSource.setter
+	def dataSource(self, newValue):
+		self._dataSource = newValue
+		self.update()
 
 	#overloads so it works with loop controls
 	def parentConfigure(self, func):
@@ -84,8 +94,6 @@ class Control(pyForms.ControlBase.Base):
 		renderCode = ""
 		for loop in self.loops:
 			renderCode += "".join([x.render() for x in loop[2]])
-
-
 		return renderCode
 
 

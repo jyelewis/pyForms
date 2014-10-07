@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html server>
+	<head>
+		<style type="text/css" rel="stylesheet">
+			.box {width:100px; height:100px; background-color:red; margin:5px; }
+		</style>
+	</head>
+	<body>
+		<table>
+			<loop server id="lpRows">
+				<tr>
+					<loop server id="lpColumns">
+						<td>
+							<div class="box"></div>
+						</td>
+					</loop>
+					<td>
+						<button server id="btnNewCol">Add new column</button>
+					</td>
+				</tr>
+			</loop>
+			<tr>
+				<td>
+					<button server id="btnNewRow">Add new row</button>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
