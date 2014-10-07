@@ -31,3 +31,6 @@ registerControl("validationGroup", pyForms.controls.validationGroup.Control)
 
 import pyForms.controls.Dropdown
 registerControl("Dropdown", pyForms.controls.Dropdown.Control)
+
+import pyForms.controls.FileUpload
+registerControl("FileUpload", pyForms.controls.FileUpload.Control)

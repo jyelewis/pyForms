@@ -14,8 +14,19 @@ class Request(pyForms.network.Request):
 			#this cannot be efficent
 			allArgs[key] = tornadoObj.request.arguments[key][0].decode("utf-8")
 
+		allFiles = {}
+		for key in tornadoObj.request.files:
+			#this cannot be efficent
+			file = tornadoObj.request.files[key][0]
+			fileDict = {}
+			fileDict['contents'] = file['body']
+			fileDict['contentType'] = file['content_type']
+			fileDict['filename'] = file['filename']
+			allFiles[key] = fileDict
+
 		request.get  = allArgs
 		request.post = allArgs
+		request.files = allFiles
 
 		#request.url = tornadoObj.static_url
 		return request

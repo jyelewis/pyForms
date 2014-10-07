@@ -1,5 +1,6 @@
 import random
 import re
+import sys
 
 import pyForms.parser
 
@@ -95,11 +96,8 @@ class PageInstance():
 	def render(self):
 		pageCode = "".join([x.render() for x in self.tree])
 		
-		try:
-			localVars = dict([(x, getattr(self.controller, x)) for x in dir(self.controller)])
-			pageCode = re.sub("{{(.*)}}", lambda match: str(eval(match.group(1), globals(), localVars)), pageCode)
-		except:
-			raise Exception("Error parsing dynamic tags")
+		localVars = dict([(x, getattr(self.controller, x)) for x in dir(self.controller)])
+		pageCode = re.sub("{{(.*)}}", lambda match: str(eval(match.group(1), globals(), localVars)), pageCode)
 
 		return pageCode
 

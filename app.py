@@ -1,10 +1,7 @@
-import random
 import sys
 
 import pyForms
 import tornado
-
-import html
 
 
 import customControls
@@ -30,6 +27,9 @@ dropdownPage = pyForms.Page(webpages.dropdown.Controller)
 import webpages.repeaterValidators
 repeaterValidatorsPage = pyForms.Page(webpages.repeaterValidators.Controller)
 
+import webpages.file
+filePage = pyForms.Page(webpages.file.Controller)
+
 
 #START WEB SERVERY STUFF
 import tornado.ioloop
@@ -43,6 +43,7 @@ application = tornado.web.Application([
     (r"/validation", pyForms.tornadoHandler(validationPage)),
     (r"/dropdown", pyForms.tornadoHandler(dropdownPage)),
     (r"/repeaterValidators", pyForms.tornadoHandler(repeaterValidatorsPage)),
+    (r"/file", pyForms.tornadoHandler(filePage)),
 ])
 
 portNumber = sys.argv[1] if len(sys.argv) > 1 else 8888

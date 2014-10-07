@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html server>
+
+<head></head>
+
+<body>
+	<h1>Upload a file:</h1>
+	<fileUpload server id="fileUpload" />
+	<button server>Submit</button>
+	<br />
+	<div>
+		Name: {{ latestFile['filename'] if latestFile else "" }}<br />
+		Mime: {{ latestFile['contentType'] if latestFile else "" }}<br />
+		Contents: <pre>{{ fileContents }}</pre>
+	</div>
+</body>
+
+</html>
