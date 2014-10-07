@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html server>
+	<head>
+		<title>Validation testing</title>
+	</head>
+	<body>
+		<validationGroup server>
+			<textbox server id="tbxTest1" placeholder="required" />
+			<validator:required server control="tbxTest1">
+				<strong>This field is required</strong>
+			</validator:required>
+
+			<br />
+			<textbox server id="tbxTest2" placeholder="not required" />
+			<br />
+			<checkbox server id="chkRequired" text="I agree to the terms" />
+			<validator:required server control="chkRequired">
+				<br /><i>You must agree to the terms</i>
+			</validator:required>
+
+			<br />
+			<button server id="btnSubmit" validates="true">Submit</button>
+		</validationGroup>
+	</body>
+</html>

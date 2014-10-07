@@ -1,0 +1,22 @@
+<html server>
+	<head>
+		<title>Loop testing</title>
+	</head>
+	<body>
+		Currently with {{ itemCount }} items
+		<br />
+		<validationGroup server>
+			<loop server id="lpItems">
+				<div>
+					<textbox server id="tbx" />
+					<button server id="btnDelete">Delete</button>
+					<validator:required server id="valTbx">
+						This field is required
+					</validator:required>
+				</div>
+			</loop>
+			<br />
+			<button server id="btnNew">Add new item</button>
+		</validationGroup>
+	</body>
+</html>

@@ -1,8 +1,8 @@
 import random
 
-import pyForms.CustomControl
+import pyForms.ControlBase
 
-class Control(pyForms.CustomControl.Base):
+class Control(pyForms.ControlBase.Base):
 	def __init__(self, obj):
 		super().__init__(obj)
 		self.autoPostBackEvent = "blur"

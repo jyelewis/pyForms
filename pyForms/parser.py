@@ -4,17 +4,17 @@ import re
 from html.parser import HTMLParser
 
 import pyForms.controlManager
-import pyForms.CustomControl
+import pyForms.ControlBase
 
 
 
-class GenericCtrl(pyForms.CustomControl.Base):
+class GenericCtrl(pyForms.ControlBase.Base):
 	def __init__(self, objData):
 		super().__init__(objData)
 		self.isSelfClosing = objData['isSelfClosing']
 
 
-class TextCtrl(pyForms.CustomControl.Base):
+class TextCtrl(pyForms.ControlBase.Base):
 	def __init__(self, text):
 		self.text = text
 		self.id = None
@@ -37,6 +37,12 @@ class TextCtrl(pyForms.CustomControl.Base):
 		pass
 
 	def fireEvents(self):
+		pass
+
+	def parentConfigure(self, func):
+		func(self)
+
+	def onChildrenChange(self):
 		pass
 
 

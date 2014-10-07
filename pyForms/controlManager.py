@@ -22,3 +22,12 @@ registerControl("Panel", pyForms.controls.Panel.Control)
 
 import pyForms.controls.Loop
 registerControl("Loop", pyForms.controls.Loop.Control)
+
+import pyForms.controls.Checkbox
+registerControl("Checkbox", pyForms.controls.Checkbox.Control)
+
+import pyForms.controls.validationGroup
+registerControl("validationGroup", pyForms.controls.validationGroup.Control)
+
+import pyForms.controls.Dropdown
+registerControl("Dropdown", pyForms.controls.Dropdown.Control)

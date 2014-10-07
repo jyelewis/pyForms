@@ -1,5 +1,7 @@
 import html
+
 import pyForms.parser
+
 class Base:
 	def __init__(self, ctrlData):
 		#total primatives, no dependencies
@@ -12,22 +14,6 @@ class Base:
 		if 'id' in self.attributes:
 			self.id = self.attributes['id']
 
-		#link pageInstance (depends: ID)
-		self.pageInstance = ctrlData['pageInstance']
-		if ctrlData['customRegisterFunction'] is not None:
-			ctrlData['customRegisterFunction'](self)
-		else:
-			self.pageInstance.registerControl(self)
-
-		#process children elements (depends: pageInstance)
-		if self.rawInnerHTML:
-			self.children = pyForms.parser.parse(self.rawInnerHTML, self.pageInstance, ctrlData['customRegisterFunction'])
-		else:
-			self.children = []
-
-		#cashe vars
-		#DO NOT CASHE INNER HTML, IT MAY CHANGE IF AN INNER CONTROL IS CHANGED
-		#self._innerHTML = None
 
 
 		#generic attributes of all controls
@@ -44,6 +30,30 @@ class Base:
 			self.autoPostBack = (self.attributes['autopostback'].lower() == "true")
 			del self.attributes['autopostback']
 		self.autoPostBackEvent = "click"
+		self.autoPostBackFunction = "pyForms_postback();"
+
+
+
+		#link pageInstance (depends: ID)
+		self.pageInstance = ctrlData['pageInstance']
+		if ctrlData['customRegisterFunction'] is not None:
+			ctrlData['customRegisterFunction'](self)
+		else:
+			self.pageInstance.registerControl(self)
+
+
+		#process children elements (depends: pageInstance)
+		if self.rawInnerHTML:
+			self.children = pyForms.parser.parse(self.rawInnerHTML, self.pageInstance, ctrlData['customRegisterFunction'])
+		else:
+			self.children = []
+
+		#cashe vars
+		#DO NOT CASHE INNER HTML, IT MAY CHANGE IF AN INNER CONTROL IS CHANGED
+		#self._innerHTML = None
+
+
+
 
 
 	#TODO: this property cant use +=, should be able to
@@ -84,6 +94,11 @@ class Base:
 		else:
 			return None
 
+	def parentConfigure(self, func): #so a parent (like validation group) can tree config
+		func(self)
+		for child in self.children:
+			child.parentConfigure(func)
+
 	def render(self):
 		if not self.visible:
 			return ""
@@ -95,7 +110,7 @@ class Base:
 			else:
 				attrs['on'+self.autoPostBackEvent] = ""
 
-			attrs['on'+self.autoPostBackEvent] += 'document.getElementById("pyForms__postbackForm").submit()'
+			attrs['on'+self.autoPostBackEvent] += self.autoPostBackFunction
 
 		strContents  = '<' + self.tagname
 		for attr in attrs:
@@ -116,7 +131,6 @@ class Base:
 			strContents += "</" + self.tagname + ">"
 		
 		return strContents
-
 
 
 

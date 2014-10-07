@@ -1,7 +1,7 @@
-import pyForms.CustomControl
+import pyForms.ControlBase
 import pyForms.parser
 
-class Control(pyForms.CustomControl.Base):
+class Control(pyForms.ControlBase.Base):
 	def __init__(self, obj):
 		super().__init__(obj)
 		self.isSelfClosing = False
@@ -34,6 +34,21 @@ class Control(pyForms.CustomControl.Base):
 			,'customRegisterFunction': None
 		})
 		formTag.children.insert(0, hiddenTag)
+
+
+		#add a script tag to the page head to create a post back function
+		scriptTag = pyForms.parser.GenericCtrl({
+			'name': "script"
+			,'attrs': {
+				 'type': 'text/ecmascript'
+			}
+			,'innerHTML': """function pyForms_postback(){ document.getElementById("pyForms__postbackForm").submit(); }"""
+			,'pageInstance': self.pageInstance
+			,'isSelfClosing': False
+			,'customRegisterFunction': None
+		})
+		self.head.children.append(scriptTag)
+
 
 		self.body.children = [formTag]
 

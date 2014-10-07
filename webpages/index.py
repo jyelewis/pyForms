@@ -10,17 +10,15 @@ class controller(pyForms.PageController):
 		self.postbackCount = 0
 
 	def onLoad(self, ctrls):
-		if self.page.request.isPostBack:
+		if self.request.isPostBack:
 			self.postbackCount += 1
+
 		ctrls.title.innerHTML = "Posted back " + str(self.postbackCount) + " times"
 
+
 	def onPrerender(self, ctrls):
-		if self.showingButtons:
-			ctrls.btnToggleColourButtons.text = "Hide colour options"
-			ctrls.pnlButtons.visible = True
-		else:
-			ctrls.btnToggleColourButtons.text = "Show colour options"
-			ctrls.pnlButtons.visible = False
+		ctrls.pnlButtons.visible = self.showingButtons
+
 
 	def tbxName_change(self, ctrls, oldVal):
 		#set defaults
@@ -50,8 +48,8 @@ class controller(pyForms.PageController):
 	def tbxCustomColour_change(self, ctrls, oldVal):
 		ctrls.bodyTag.attributes['style'] = "background-color:"+ctrls.tbxCustomColour.text+";"
 
-	def btnToggleColourButtons_click(self, ctrls):
-		self.showingButtons = not self.showingButtons
+	def chkColourButtons_check(self, ctrls):
+		self.showingButtons = ctrls.chkColourButtons.checked
 
 
 

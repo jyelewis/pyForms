@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html server>
+	<head>
+	</head>
+	<body>
+		<validationGroup server>
+			Select a state
+			<dropdown server id="ddlStates" autopostback="true">
+				<option value="Unselected">Please select an option</option>
+				<option value="NSW">New South Wales</option>
+				<option value="ACT">ACT</option>
+				<option value="QLD">Queensland</option>
+				<option value="Other">Other</option>
+			</dropdown>
+			<br />
+			<validator:required server control="ddlStates">
+				You must select an option
+			</validator:required>
+
+			<panel server id="pnlOther">
+				<br />
+				Enter your location: <textbox server id="tbxOther" autopostback="true" />
+			</panel>
+			<br />
+			<div>
+				Your location: {{curLocation}}
+			</div>
+		</validationGroup>
+	</body>
+</html>

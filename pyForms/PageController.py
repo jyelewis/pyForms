@@ -24,4 +24,5 @@ class PageController:
 		file = open(self.HTMLFile, 'r')
 		retValue = file.read()
 		file.close()
+		
 		return retValue

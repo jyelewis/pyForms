@@ -62,6 +62,7 @@ class PageInstance():
 
 		#store request so it can be accessed by controls and controller class
 		self.request = request
+		self.controller.request = request
 
 		#2 - pass request to each control to update themselves
 		for control in self.tree:
@@ -82,6 +83,7 @@ class PageInstance():
 
 		#done with the request, dont keep it around
 		self.request = None
+		self.controller.request = None
 
 	def registerControl(self, control):
 		if control.id is not None:
@@ -96,8 +98,8 @@ class PageInstance():
 		try:
 			localVars = dict([(x, getattr(self.controller, x)) for x in dir(self.controller)])
 			pageCode = re.sub("{{(.*)}}", lambda match: str(eval(match.group(1), globals(), localVars)), pageCode)
-		except(e):
-			raise Exception("Error parsing dynamic tags", e)
+		except:
+			raise Exception("Error parsing dynamic tags")
 
 		return pageCode
 
@@ -112,8 +114,3 @@ class controlsReference:
 			return self.pageInstance.controls[controlID]
 		else:
 			return None
-
-
-#before: tags dont reexecute between renders
-#after cant have dynamic properties
-#or we could have two types of tags...

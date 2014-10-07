@@ -5,6 +5,7 @@ class Request():
 		self.url = None
 		self.get = {}
 		self.post = {}
+		self.isValid = True
 
 		self._isPostBack = None
 

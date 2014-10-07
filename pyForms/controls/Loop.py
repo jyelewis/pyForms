@@ -1,9 +1,9 @@
 import random
 
-import pyForms.CustomControl
+import pyForms.ControlBase
 import pyForms.parser
 
-class Control(pyForms.CustomControl.Base):
+class Control(pyForms.ControlBase.Base):
 	def __init__(self, obj):
 		rawInnerHTML = obj['innerHTML']
 		obj['innerHTML'] = None #make sure the children arent processed
@@ -16,17 +16,24 @@ class Control(pyForms.CustomControl.Base):
 
 		self.configureLoopHandler = self.getEventHandler("configureLoop")
 
+	#overloads so it works with loop controls
+	def parentConfigure(self, func):
+		func(self)
+		for loop in self.loops:
+			for control in loop[2]:
+				control.parentConfigure(func)
+
 	def update(self):
 		self.loops = []
 
 		for item in self.dataSource:
-			self._appendToLoops(item)
+			self._appendToLoops(item, False)
+
 
 	def reconfigure(self):
 		if self.configureLoopHandler:
 			for index, item in enumerate(self.loops):
 				self.loops[index][0] = index #update indexes
-
 				self.configureLoopHandler(item[3], item[1], item[0])
 
 	def remove(self, index):
