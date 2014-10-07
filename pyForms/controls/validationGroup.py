@@ -16,7 +16,7 @@ class Control(pyForms.ControlBase.Base):
 		if ctrlToConfigure.id is not None:
 			self.allControls[ctrlToConfigure.id] = ctrlToConfigure
 
-		if type(ctrlToConfigure) is pyForms.controls.Button.Control:
+		if type(ctrlToConfigure) is pyForms.controls.Button.Control or type(ctrlToConfigure) is pyForms.controls.LinkButton.Control:
 			self.buttons.append(ctrlToConfigure)
 
 		if issubclass(ctrlToConfigure.__class__, pyForms.validators.Base.Class):

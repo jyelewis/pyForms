@@ -2,6 +2,11 @@
 <html server>
 	<head>
 		<title id="title">This is a test website</title>
+		<style>
+			a {
+				color:black;
+			}
+		</style>
 	</head>
 	<body id="bodyTag">
 		<h1>This is my website</h1>
@@ -26,9 +31,9 @@
 		<checkbox server autopostback="true" id="chkColourButtons" text="Colour options" />
 		<br /><br /><br />
 		<panel server id="pnlButtons">
-			<button server id="btnRed">Make it red!</button>
-			<button server id="btnBlue">Make it blue!</button>
-			<button server id="btnRandomColour">Random colour</button>
+			<linkButton server id="btnRed">Make it red!</linkButton>
+			<linkButton server id="btnBlue">Make it blue!</linkButton>
+			<linkButton server id="btnRandomColour">Random colour</linkButton>
 
 			<p>
 				Enter a custom colour:

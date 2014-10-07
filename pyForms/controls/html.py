@@ -42,7 +42,16 @@ class Control(pyForms.ControlBase.Base):
 			,'attrs': {
 				 'type': 'text/ecmascript'
 			}
-			,'innerHTML': """function pyForms_postback(){ document.getElementById("pyForms__postbackForm").submit(); }"""
+			,'innerHTML': """function pyForms_postback(addName, addValue){
+				if (addName){ 
+					var input = document.createElement('input');
+				    input.type = 'hidden';
+				    input.name = addName
+				    input.value = addValue || "1";
+				    document.forms[0].appendChild(input)
+			    }
+				document.getElementById("pyForms__postbackForm").submit();
+			}"""
 			,'pageInstance': self.pageInstance
 			,'isSelfClosing': False
 			,'customRegisterFunction': None

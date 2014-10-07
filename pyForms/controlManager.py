@@ -34,3 +34,6 @@ registerControl("Dropdown", pyForms.controls.Dropdown.Control)
 
 import pyForms.controls.FileUpload
 registerControl("FileUpload", pyForms.controls.FileUpload.Control)
+
+import pyForms.controls.LinkButton
+registerControl("LinkButton", pyForms.controls.LinkButton.Control)
