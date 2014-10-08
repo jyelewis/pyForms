@@ -9,6 +9,9 @@ class controller(pyForms.PageController):
 
 	def onInit(self, ctrls):
 		self.username = None
+		if 'chatUsername' in self.request.cookies:
+			self.login(self.request.cookies['chatUsername'])
+
 		#bind the loop
 		ctrls.lpMessages.dataSource = messages
 
@@ -29,9 +32,9 @@ class controller(pyForms.PageController):
 			ctrls.pnlLoginError.visible = True
 			return
 
-		self.username = ctrls.tbxName.text
-		users.append(self.username)
-		ctrls.pnlName.innerHTML = self.username
+		ctrls.pnlLoginError.visible = False
+
+		self.login(ctrls.tbxName.text)
 
 		
 	def btnSendMessage_click(self, ctrls):
@@ -42,7 +45,25 @@ class controller(pyForms.PageController):
 		loopCtrls.messageText.innerHTML = data[0]
 		loopCtrls.saidBy.innerHTML = data[1]
 
+	def btnLogout_click(self, ctrls):
+		self.logout()
 
+	def login(self, username):
+		self.username = username
+		self.request.setCookie('chatUsername', self.username, {
+				 'expires': None #expire at end of session
+				 ,'domain': None
+				 ,'path': "/"
+			}) #NOTE these are all defaults, just example code
+		self.page.controls['pnlName'].innerHTML = self.username
+		users.append(self.username)
+
+
+	def logout(self):
+		del users[users.index(self.username)]
+		self.username = None
+		self.request.clearCookie('chatUsername')
+		self.page.controls['pnlName'].innerHTML = 'Not logged in'
 
 
 

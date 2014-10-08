@@ -55,8 +55,7 @@ class PageInstance():
 
 		self.tree = pyForms.parser.parse(self.code, self)
 
-		#life cycle 1 - init controller
-		self.controller.onInit(self.controlsReferenceObj)
+		self.hasInited = False
 
 	def handleRequest(self, request, response):
 		#page life cycle all happens here
@@ -64,6 +63,12 @@ class PageInstance():
 		#store request so it can be accessed by controls and controller class
 		self.request = request
 		self.controller.request = request
+
+		if not self.hasInited:
+			#life cycle 1 - init controller
+			self.controller.onInit(self.controlsReferenceObj)
+			self.hasInited = True
+			
 
 		#2 - pass request to each control to update themselves
 		for control in self.tree:

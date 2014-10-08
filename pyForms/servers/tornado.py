@@ -6,7 +6,7 @@ import pyForms.network
 class Request(pyForms.network.Request):
 	@classmethod
 	def fromTornado(cls, tornadoObj):
-		request = cls()
+		request = cls(tornadoObj)
 
 		#these are taking the same feed. Which has all arguments, fix when smarter
 		allArgs = {}
@@ -24,12 +24,34 @@ class Request(pyForms.network.Request):
 			fileDict['filename'] = file['filename']
 			allFiles[key] = fileDict
 
+		allCookies = {}
+		for key in tornadoObj.request.cookies:
+			allCookies[key] = tornadoObj.request.cookies[key].value
+
 		request.get  = allArgs
 		request.post = allArgs
 		request.files = allFiles
+		request.cookies = allCookies
 
 		#request.url = tornadoObj.static_url
 		return request
+
+	def __init__(self, tornadoObj):
+		super().__init__()
+		self.tornadoObj = tornadoObj
+
+	def setCookie(self, name, value, args):
+		defaultArgs = {
+			 'expires': None
+			,'domain': None
+			,'path': "/"
+		}
+		args = dict(list(defaultArgs.items()) + list(args.items())) #fill with defaults
+		self.tornadoObj.set_cookie(name, value, args['domain'], args['expires'], args['expires'])
+
+	def clearCookie(self, name, domain = None, path = "/"):
+		self.tornadoObj.clear_cookie(name, path, domain)
+
 
 
 class Response(pyForms.network.Response):
