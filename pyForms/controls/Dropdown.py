@@ -21,7 +21,7 @@ class Control(pyForms.ControlBase.Base):
 		self.attributes['name'] = self.name
 		
 		self.dataSource = []
-		self.selectedIndex = None
+
 		for child in self.children:
 			if not isinstance(child, pyForms.parser.GenericCtrl):
 				continue
@@ -34,6 +34,8 @@ class Control(pyForms.ControlBase.Base):
 				self.dataSource.append((child.rawInnerHTML, child.attributes['value']))
 			else:
 				self.dataSource.append(child.rawInnerHTML)
+
+		self.selectedIndex = None if len(self.dataSource) == 0 else 0
 
 		self.changeHandler = self.getEventHandler("change")
 		self._fireChangeEvent = False
@@ -56,8 +58,6 @@ class Control(pyForms.ControlBase.Base):
 	@property
 	def selectedText(self):
 		return getItemText(self.dataSource[self.selectedIndex])
-
-
 
 	def onRequest(self):
 		if self.name in self.pageInstance.request.post:

@@ -26,7 +26,7 @@ class Request(pyForms.network.Request):
 
 		allCookies = {}
 		for key in tornadoObj.request.cookies:
-			allCookies[key] = tornadoObj.request.cookies[key].value
+			allCookies[key] = tornadoObj.request.cookies[key].value.replace("__space__", "")
 
 		request.get  = allArgs
 		request.post = allArgs
@@ -47,6 +47,9 @@ class Request(pyForms.network.Request):
 			,'path': "/"
 		}
 		args = dict(list(defaultArgs.items()) + list(args.items())) #fill with defaults
+		#tornado seems to have problems encoding some characters
+		#GOOGLE THIS PROBLEM WHEN YOU NEXT HAVE INTERNET AND GET A REAL FIX
+		value = value.replace(" ", "__space__")
 		self.tornadoObj.set_cookie(name, value, args['domain'], args['expires'], args['expires'])
 
 	def clearCookie(self, name, domain = None, path = "/"):
