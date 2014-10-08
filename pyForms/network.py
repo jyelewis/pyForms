@@ -1,3 +1,7 @@
+import random
+
+sessions = {}
+
 #These classes must be subclassed to generate objects for specific server frameworks
 
 class Request():
@@ -9,11 +13,26 @@ class Request():
 
 		self._isPostBack = None
 
+		self._session = None
+
 	@property
 	def isPostBack(self):
 		if self._isPostBack is None:
 			self._isPostBack = ('pyForms__postbackInstanceID' in self.post)
 		return self._isPostBack
+
+	@property
+	def session(self):
+		if self._session is None:
+			if 'pyForms__sessionID' in self.cookies and self.cookies['pyForms__sessionID'] in sessions:
+				self._session = sessions[self.cookies['pyForms__sessionID']] #fetch existing session
+			else:
+				newSessionID = str(random.randint(1000,9999))
+				self.setCookie('pyForms__sessionID', newSessionID)
+				self._session = {}
+				sessions[newSessionID] = self._session
+
+		return self._session
 
 
 class Response():

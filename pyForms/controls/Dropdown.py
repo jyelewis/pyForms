@@ -21,7 +21,7 @@ class Control(pyForms.ControlBase.Base):
 		self.attributes['name'] = self.name
 		
 		self.dataSource = []
-		self.selectedIndex = 0
+		self.selectedIndex = None
 		for child in self.children:
 			if not isinstance(child, pyForms.parser.GenericCtrl):
 				continue
@@ -65,6 +65,8 @@ class Control(pyForms.ControlBase.Base):
 			self.selectedIndex = int(self.pageInstance.request.post[self.name])
 			if self.selectedIndex != oldIndex:
 				self._fireChangeEvent = True
+		else:
+			selectedIndex = None
 
 
 	def fireEvents(self):
@@ -86,7 +88,7 @@ class Control(pyForms.ControlBase.Base):
 				,'attrs': attrs
 				,'startContentsPos': None
 				,'endContentsPos': None
-				,'innerHTML': cgi.escape(getItemText(item))
+				,'innerHTML': cgi.escape(str(getItemText(item)))
 				,'isSelfClosing': None
 				,'pageInstance': self.pageInstance
 				,'customRegisterFunction': None

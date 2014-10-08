@@ -37,10 +37,10 @@ class Request(pyForms.network.Request):
 		return request
 
 	def __init__(self, tornadoObj):
-		super().__init__()
 		self.tornadoObj = tornadoObj
+		super().__init__()
 
-	def setCookie(self, name, value, args):
+	def setCookie(self, name, value, args = {}):
 		defaultArgs = {
 			 'expires': None
 			,'domain': None

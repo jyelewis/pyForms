@@ -36,6 +36,9 @@ nestedLoopsPage = pyForms.Page(webpages.nestedLoops.Controller)
 import webpages.test
 testPage = pyForms.Page(webpages.test.Controller)
 
+import webpages.session
+sessionPage = pyForms.Page(webpages.session.Controller)
+
 #START WEB SERVERY STUFF
 import tornado.ioloop
 import tornado.web
@@ -52,6 +55,7 @@ application = tornado.web.Application([
     (r"/file", pyForms.tornadoHandler(filePage)),
     (r"/nestedLoops", pyForms.tornadoHandler(nestedLoopsPage)),
     (r"/test", pyForms.tornadoHandler(testPage)),
+    (r"/session", pyForms.tornadoHandler(sessionPage)),
 ])
 
 portNumber = sys.argv[1] if len(sys.argv) > 1 else 8888
