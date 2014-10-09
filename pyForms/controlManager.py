@@ -37,3 +37,8 @@ registerControl("FileUpload", pyForms.controls.FileUpload.Control)
 
 import pyForms.controls.LinkButton
 registerControl("LinkButton", pyForms.controls.LinkButton.Control)
+
+import pyForms.controls.include
+registerControl("include", pyForms.controls.include.Control)
+
+

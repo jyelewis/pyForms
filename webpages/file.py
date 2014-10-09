@@ -4,6 +4,8 @@ import cgi
 class Controller(pyForms.PageController):
 	def setHTMLFile(self):
 		self.HTMLFile = "webpages/file.html"
+		
+	def onInit(self, ctrls):
 		self.latestFile = None
 
 	def fileUpload_upload(self, ctrls):

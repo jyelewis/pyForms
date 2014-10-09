@@ -26,7 +26,8 @@ class Page():
 			self.pageInstances[instance.id] = instance
 
 		#do the handling
-		instance.handleRequest(request, response)
+		response.write(instance.renderRequest(request, response))
+		
 
 
 
@@ -57,11 +58,13 @@ class PageInstance():
 
 		self.hasInited = False
 
-	def handleRequest(self, request, response):
+	def renderRequest(self, request, response):
 		#page life cycle all happens here
 
 		#store request so it can be accessed by controls and controller class
 		self.request = request
+		self.response = response
+		
 		self.controller.request = request
 
 		if not self.hasInited:
@@ -85,7 +88,7 @@ class PageInstance():
 		self.controller.onPrerender(self.controlsReferenceObj)
 
 		#6 - render page and write response
-		response.write(self.render())
+		return self.render()
 
 		#done with the request, dont keep it around
 		self.request = None
