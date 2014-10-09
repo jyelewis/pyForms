@@ -63,11 +63,11 @@ class Control(pyForms.ControlBase.Base):
 			if not validator.hasInited:
 				validator.initValidator()
 			javascript += """if (function() { """ + validator.clientCode + """}()) {
-			document.getElementById('""" + validator.attributes['id'] + """').style.display = "";
+				document.getElementById('""" + validator.attributes['id'] + """').style.display = "none";
+			} else {
+				document.getElementById('""" + validator.attributes['id'] + """').style.display = "";
 				if (e.preventDefault) { e.preventDefault(); }
 				hasError = true;
-			} else {
-				document.getElementById('""" + validator.attributes['id'] + """').style.display = "none";
 			}
 			if (postback && !hasError){
 				pyForms_postback();

@@ -56,6 +56,7 @@ def parse(html, pageInstance, customRegisterFunction = None):
 			self.curTag = None
 			self.tags = []
 			self.splitData = None
+			self.tagVerify = []
 			self.selfClosingTags = """
 area
 base
@@ -84,6 +85,8 @@ wbr
 			if not self.splitData:
 				self.splitData = self.rawdata.split("\n")
 
+			self.tagVerify.append(tag)
+
 			if self.curTag != None and self.curTag['startContentsPos'] == None:
 				self.curTag['startContentsPos'] = self.getpos()
 			
@@ -106,9 +109,15 @@ wbr
 			if isHandlingSelfClosing ^ (tag in self.selfClosingTags):
 				return
 
+			expecting = self.tagVerify.pop()
+			if not isHandlingSelfClosing and expecting != tag:
+				raise Exception("Error parsing HTML, " + tag + " ended before " + expecting)
+				return
+
 			self.depth -= 1
 
 			if self.depth == 0:
+
 				self.curTag['endContentsPos'] = self.getpos()
 
 				if isHandlingSelfClosing:

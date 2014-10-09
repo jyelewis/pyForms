@@ -7,15 +7,19 @@ class Control(Base.Class):
 	def initValidator(self):
 		if type(self.control) is pyForms.controls.Textbox.Control:
 			self.serverValidator = self.ctrl_textbox
-			self.clientCode = "return document.getElementById('"+ self.control.attributes['id'] +"').value == ''; "
+			self.clientCode = "return document.getElementById('"+ self.control.attributes['id'] +"').value != ''; "
 
 		elif type(self.control) is pyForms.controls.Checkbox.Control:
 			self.serverValidator = self.ctrl_checkbox
-			self.clientCode = "return document.getElementById('"+ self.control.attributes['id'] +"').checked == false;"
+			self.clientCode = "return document.getElementById('"+ self.control.attributes['id'] +"').checked == true;"
 
 		elif type(self.control) is pyForms.controls.Dropdown.Control:
 			self.serverValidator = self.ctrl_dropdown
-			self.clientCode = "return document.getElementById('"+ self.control.attributes['id'] +"').selectedIndex == 0;"
+			self.clientCode = "return document.getElementById('"+ self.control.attributes['id'] +"').selectedIndex != 0;"
+
+		elif type(self.control) is pyForms.controls.FileUpload.Control:
+			self.serverValidator = self.ctrl_file
+			self.clientCode = "return document.getElementById('"+ self.control.attributes['id'] +"').files.length != 0;"
 
 		
 	def onRequest(self):
@@ -33,6 +37,9 @@ class Control(Base.Class):
 
 	def ctrl_dropdown(self):
 		return self.control.selectedIndex != 0
+
+	def ctrl_file(self):
+		return self.control.file is not None
 
 
 

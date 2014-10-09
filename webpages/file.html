@@ -5,8 +5,13 @@
 
 <body>
 	<h1>Upload a file:</h1>
-	<fileUpload server id="fileUpload" />
-	<button server>Submit</button>
+	<validationGroup server>
+		<fileUpload server id="fileUpload" />
+		<button server>Submit</button>
+		<validator:required server control="fileUpload">
+			You must select a file
+		</validator:required>
+	</validationGroup>
 	<br />
 	<div>
 		Name: {{ latestFile['filename'] if latestFile else "" }}<br />
