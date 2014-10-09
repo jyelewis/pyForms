@@ -27,7 +27,7 @@ class Request():
 			if 'pyForms__sessionID' in self.cookies and self.cookies['pyForms__sessionID'] in sessions:
 				self._session = sessions[self.cookies['pyForms__sessionID']] #fetch existing session
 			else:
-				newSessionID = str(random.randint(1000,9999))
+				newSessionID = str(random.randint(100000,999999))
 				self.setCookie('pyForms__sessionID', newSessionID)
 				self._session = {}
 				sessions[newSessionID] = self._session

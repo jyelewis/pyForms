@@ -7,7 +7,7 @@ import pyForms.controls.Button
 class Control(pyForms.ControlBase.Base):
 	def __init__(self, obj):
 		super().__init__(obj)
-		self.validationGroupID = random.randint(1000,9999)
+		self.validationGroupID = random.randint(100000,999999)
 
 
 
