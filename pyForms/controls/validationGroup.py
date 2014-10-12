@@ -8,6 +8,7 @@ class Control(pyForms.ControlBase.Base):
 	def __init__(self, obj):
 		super().__init__(obj)
 		self.validationGroupID = random.randint(100000,999999)
+		self.validatorIndexCount = 1
 
 
 
@@ -52,7 +53,8 @@ class Control(pyForms.ControlBase.Base):
 		self.configureControls()
 
 		for validator in self.validators:
-			validator.attributes['id'] = validator.control.attributes['id'] + "_validator_" + str(random.randint(100000,999999))
+			validator.attributes['id'] = validator.control.attributes['id'] + "_validator_" + str(self.validatorIndexCount)
+			self.validatorIndexCount += 1
 			if not validator.hasInited:
 				validator.initValidator()
 
