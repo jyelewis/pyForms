@@ -10,6 +10,7 @@ class Control(pyForms.ControlBase.Base):
 		self.tagname = "input"
 		self.isSelfClosing = True
 		self.attributes['type'] = 'checkbox'
+		self.autoPostBackEvent = "change"
 
 		self.name = str(random.randint(100,999))
 		if self.id is not None:

@@ -50,7 +50,13 @@ class Control(pyForms.ControlBase.Base):
 
 	def render(self):
 		self.configureControls()
-		
+
+		for validator in self.validators:
+			validator.attributes['id'] = validator.control.attributes['id'] + "_validator_" + str(random.randint(100000,999999))
+			if not validator.hasInited:
+				validator.initValidator()
+
+		innerHTMLRendered = self.innerHTML
 		#add the javascript
 		javascript = """
 			<script type="text/ecmascript">
@@ -62,26 +68,24 @@ class Control(pyForms.ControlBase.Base):
 
 		"""
 		for validator in self.validators:
-			validator.attributes['id'] = validator.control.attributes['id'] + "_validator+" + str(random.randint(100000,999999))
-			if not validator.hasInited:
-				validator.initValidator()
-
 			javascript += """
 				currentValidator = document.getElementById('""" + validator.attributes['id'] + """');
 				currentElement = document.getElementById('""" + validator.control.attributes['id'] + """');
 
-				if (!function() { """ + validator.clientCode + """}()) {
+				if ((function() { """ + validator.clientCode + """}())) {
+					currentValidator.style.display = "none";
+				} else {
 					currentValidator.style.display = "";
 					isValid = false;
-				} else {
-					currentValidator.style.display = "none";
 				}
 			"""
 
 		javascript += """
-			if (!isValid){
+			if (isValid){
+				pyForms_postback();
+			} else {
 				if (e.preventDefault) {e.preventDefault();}
 			}
 		} </script>"""
 
-		return javascript + self.innerHTML
+		return javascript + innerHTMLRendered

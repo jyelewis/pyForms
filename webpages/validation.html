@@ -17,11 +17,11 @@
 			<validator:required server control="tbxAge">
 				Please enter your age
 			</validator:required>
-			<validator:range server control="tbxAge" min="0">
+			<validator:range server control="tbxAge" min="0" max="120">
 				Please enter a resonable number
 			</validator:range>
 			<br />
-			<checkbox server id="chkRequired" text="I agree to the terms" />
+			<checkbox server id="chkRequired" text="I agree to the terms" autopostback="true" />
 			<validator:required server control="chkRequired">
 				<br /><i>You must agree to the terms</i>
 			</validator:required>

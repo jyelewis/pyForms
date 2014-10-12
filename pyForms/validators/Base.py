@@ -8,6 +8,7 @@ class Class(pyForms.ControlBase.Base):
 		self.control = None #this will be given by the validationgroup
 		if 'control' in self.attributes:
 			self.controlID = self.attributes['control']
+			del self.attributes['control']
 		else:
 			self.controlID = None
 
@@ -17,9 +18,7 @@ class Class(pyForms.ControlBase.Base):
 		self.serverValidator = lambda: True
 
 		self.tagname = "span"
-		self.attributes = {
-			"style": "display:none;"
-		}
+		self.attributes['style'] = "display:none;"
 
 		self.hasInited = False
 
