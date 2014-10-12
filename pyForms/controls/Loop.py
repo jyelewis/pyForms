@@ -64,7 +64,7 @@ class Control(pyForms.ControlBase.Base):
 		def customRegisterFunction(controlToRegister):
 			nonlocal index
 			if controlToRegister.id is not None:
-				controlToRegister.attributes['id'] = self.id + "_" + controlToRegister.id + "_" + str(index)
+				controlToRegister.attributes['id'] = self.id + "_" + controlToRegister.id + "_" + str(index) + str(random.randint(100000, 999999))
 				controlsDict[controlToRegister.id] = controlToRegister
 
 		controls = pyForms.parser.parse(self.rawInnerHTML, self.pageInstance, customRegisterFunction)
