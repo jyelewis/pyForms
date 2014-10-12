@@ -56,24 +56,32 @@ class Control(pyForms.ControlBase.Base):
 			<script type="text/ecmascript">
 				function pyForms_validate_"""+str(self.validationGroupID)+"""(e, postback) {
 				e = e || window.event;
-				hasError = false;
+				var currentElement = null;
+				var currentValidator = null;
+				var isValid = true;
+
 		"""
 		for validator in self.validators:
-			validator.attributes['id'] = validator.control.attributes['id'] + "_validator"
+			validator.attributes['id'] = validator.control.attributes['id'] + "_validator+" + str(random.randint(100000,999999))
 			if not validator.hasInited:
 				validator.initValidator()
-			javascript += """if (function() { """ + validator.clientCode + """}()) {
-				document.getElementById('""" + validator.attributes['id'] + """').style.display = "none";
-			} else {
-				document.getElementById('""" + validator.attributes['id'] + """').style.display = "";
-				if (e.preventDefault) { e.preventDefault(); }
-				hasError = true;
-			}
-			if (postback && !hasError){
-				pyForms_postback();
-			}
+
+			javascript += """
+				currentValidator = document.getElementById('""" + validator.attributes['id'] + """');
+				currentElement = document.getElementById('""" + validator.control.attributes['id'] + """');
+
+				if (!function() { """ + validator.clientCode + """}()) {
+					currentValidator.style.display = "";
+					isValid = false;
+				} else {
+					currentValidator.style.display = "none";
+				}
 			"""
 
-		javascript += "} </script>"
+		javascript += """
+			if (!isValid){
+				if (e.preventDefault) {e.preventDefault();}
+			}
+		} </script>"""
 
 		return javascript + self.innerHTML

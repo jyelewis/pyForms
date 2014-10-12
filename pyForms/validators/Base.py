@@ -23,6 +23,13 @@ class Class(pyForms.ControlBase.Base):
 
 		self.hasInited = False
 
+
+	def onRequest(self):
+		#show error thingy if there is an error thingy
+		if self.pageInstance.request.isPostBack:
+			self.isValid = self.serverValidator()
+			self.pageInstance.request.isValid = self.isValid
+
 	def render(self):
 		if not self.hasInited:
 			self.initValidator()

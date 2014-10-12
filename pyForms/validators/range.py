@@ -10,7 +10,7 @@ class Control(Base.Class):
 			return
 
 		self.serverValidator = self.ctrl_textbox
-		self.clientCode = "return !isNaN(document.getElementById('"+ self.control.attributes['id'] +"').value);"
+		self.clientCode = "return !isNaN(currentElement.value);"A
 
 		
 	def onRequest(self):
