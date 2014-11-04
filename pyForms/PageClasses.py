@@ -3,10 +3,12 @@ import re
 import sys
 
 import pyForms.parser
+import pyForms.auth
 
 class Page():
-	def __init__(self, clsController):
+	def __init__(self, clsController, requireAuthentication = False):
 		self.clsController = clsController
+		self.requireAuthentication = requireAuthentication
 		self.pageInstances = {}
 
 	def handleRequest(self, request, response):
@@ -26,7 +28,11 @@ class Page():
 			self.pageInstances[instance.id] = instance
 
 		#do the handling
-		response.write(instance.renderRequest(request, response))
+		if not self.requireAuthentication or pyForms.auth.authenticateRequest(request, response, instance):
+			pageResponseCode = instance.renderRequest(request, response)
+			if not response.isLocked:
+				response.write(pageResponseCode)
+				response.end()
 		
 
 
@@ -100,6 +106,20 @@ class PageInstance():
 				raise Exception("ID registered twice!")
 			else:
 				self.controls[control.id] = control
+
+	#auth methods -----------------------------------------
+	
+	@property
+	def userData(self):
+		if 'auth_userdata' in self.request.session:
+			return self.request.session['auth_userdata']
+		return None
+
+	@property
+	def isLoggedIn(self):
+		return 'auth_userdata' in self.request.session
+	
+	#end auth ---------------------------------------------
 
 	def render(self):
 		pageCode = "".join([x.render() for x in self.tree])

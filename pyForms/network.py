@@ -37,7 +37,7 @@ class Request():
 
 class Response():
 	def __init__(self):
-		pass
+		self.isLocked = False #set to false when a header locking function is used (redirect)
 
 	def write(self):
 		raise NotImplimentedError

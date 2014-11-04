@@ -1,5 +1,5 @@
 import random
-
+import cgi
 import pyForms.ControlBase
 
 class Control(pyForms.ControlBase.Base):
@@ -49,7 +49,7 @@ class Control(pyForms.ControlBase.Base):
 		elif self.type.lower() == "textarea":
 			self.tagname = "textarea"
 			self.isSelfClosing = False
-			self.innerHTML = self.text
+			self.innerHTML = cgi.escape(self.text)
 		else:
 			raise Exception("Textbox type '" + self.type + "' is not valid")
 		return super().render()

@@ -33,7 +33,7 @@ class Request(pyForms.network.Request):
 		request.files = allFiles
 		request.cookies = allCookies
 
-		#request.url = tornadoObj.static_url
+		request.url = tornadoObj.request.protocol + "://" + tornadoObj.request.host + tornadoObj.request.uri
 		return request
 
 	def __init__(self, tornadoObj):
@@ -50,7 +50,7 @@ class Request(pyForms.network.Request):
 		#tornado seems to have problems encoding some characters
 		#GOOGLE THIS PROBLEM WHEN YOU NEXT HAVE INTERNET AND GET A REAL FIX
 		value = value.replace(" ", "__space__")
-		self.tornadoObj.set_cookie(name, value, args['domain'], args['expires'], args['expires'])
+		self.tornadoObj.set_cookie(name, value, args['domain'], args['expires'], args['path'])
 
 	def clearCookie(self, name, domain = None, path = "/"):
 		self.tornadoObj.clear_cookie(name, path, domain)
@@ -64,14 +64,19 @@ class Response(pyForms.network.Response):
 		return response
 
 	def __init__(self, tornadoObj):
+		super().__init__()
 		self.tornadoObj = tornadoObj
 
 	def write(self, content):
-		self.tornadoObj.write(content)
+		if not self.isLocked:
+			self.tornadoObj.write(content)
+		else:
+			print("WARNING: write called after response locked")
 
 	def redirect(self, location):
-		print("*redirect called*")
-		raise NotImplementedError
+		if not self.isLocked:
+			self.isLocked = True #redirect locks response
+			self.tornadoObj.redirect(location)
 
 
 

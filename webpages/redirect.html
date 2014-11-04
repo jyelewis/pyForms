@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html server>
+	<head></head>
+	<body>
+		<h1>Enter password to get to secret URL</h1>
+		<validationGroup server>
+			<textbox server id="tbxPassword" type="password" /><br />
+			
+			<!--validators-->
+			<validator:required server control="tbxPassword">Please enter a password<br /></validator:required>
+			<panel server id="pnlErrorMessage" visible="false">Incorrect password!<br /></panel>
+			
+			<button server id="btnRedirect">Redirect</button>
+		</validationGroup>
+	</body>
+</html>

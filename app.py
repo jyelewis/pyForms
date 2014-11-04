@@ -45,6 +45,9 @@ includePage = pyForms.Page(webpages.include.Controller)
 import webpages.includeTest
 includeTestPage = pyForms.Page(webpages.includeTest.Controller)
 
+import webpages.redirect
+redirectPage = pyForms.Page(webpages.redirect.Controller)
+
 #START WEB SERVERY STUFF
 import tornado.ioloop
 import tornado.web
@@ -64,6 +67,7 @@ application = tornado.web.Application([
     (r"/session", pyForms.tornadoHandler(sessionPage)),
     (r"/include", pyForms.tornadoHandler(includePage)),
     (r"/includeTest", pyForms.tornadoHandler(includeTestPage)),
+    (r"/redirect", pyForms.tornadoHandler(redirectPage)),
 ])
 
 portNumber = sys.argv[1] if len(sys.argv) > 1 else 8888
