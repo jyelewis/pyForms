@@ -98,7 +98,9 @@ class Control(pyForms.ControlBase.Base):
 
 		javascript += """
 			if (isValid){
-				pyForms_postback();
+				if (postback) {
+					pyForms_postback(); //only post back if it is a custom control, otherwise let the form submit
+				}
 			} else {
 				if (e.preventDefault) {e.preventDefault();}
 			}
