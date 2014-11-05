@@ -7,7 +7,7 @@
 	<h1>Upload a file:</h1>
 	<validationGroup server>
 		<fileUpload server id="fileUpload" />
-		<button server>Submit</button>
+		<button server causesValidation>Submit</button>
 		<validator:required server control="fileUpload">
 			You must select a file
 		</validator:required>

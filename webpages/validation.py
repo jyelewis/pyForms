@@ -10,4 +10,5 @@ class Controller(pyForms.PageController):
 		#ctrls.tbxTest1.validators.append(pyForms.validator)
 
 	def onLoad(self, ctrls):
-		ctrls.tbxTest2.text = random.randint(100000,999999)
+		if self.page.request.isValid:
+			ctrls.tbxTest2.text = random.randint(100000,999999)

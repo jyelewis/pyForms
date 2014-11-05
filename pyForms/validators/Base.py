@@ -25,7 +25,7 @@ class Class(pyForms.ControlBase.Base):
 
 	def onRequest(self):
 		#show error thingy if there is an error thingy
-		if self.pageInstance.request.isPostBack:
+		if self.pageInstance.request.isPostBack and self.pageInstance.request.causesValidation:
 			self.isValid = self.serverValidator()
 			self.pageInstance.request.isValid = self.isValid
 

@@ -11,6 +11,10 @@ class Control(pyForms.ControlBase.Base):
 		self.validatorIndexCount = 1
 
 
+		self.allControls = {}
+		self.validators = []
+		self.buttons = []
+
 
 	def parentConfigureFunc(self, ctrlToConfigure):
 		ctrlToConfigure.autoPostBackFunction = "pyForms_validate_"+str(self.validationGroupID)+"(event, true);"
@@ -47,7 +51,17 @@ class Control(pyForms.ControlBase.Base):
 			#if 'onclick' in button.attributes:
 			#	button.attributes['onclick'] += "pyForms_validate_"+str(self.validationGroupID) + "(event);"
 			#else:
-			button.attributes['onclick'] = "pyForms_validate_"+str(self.validationGroupID) + "(event);"
+			if button.causesValidation:
+				button.attributes['onclick'] = "pyForms_validate_"+str(self.validationGroupID) + "(event);"
+
+	def onRequest(self):
+		self.pageInstance.request.causesValidation = True
+		for button in self.buttons:
+			if button.wasClicked and not button.causesValidation:
+				self.pageInstance.request.causesValidation = False
+
+		for child in self.children:
+			child.onRequest()
 
 	def render(self):
 		self.configureControls()
