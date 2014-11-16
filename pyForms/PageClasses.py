@@ -27,9 +27,20 @@ class Page():
 			#store for postbacks
 			self.pageInstances[instance.id] = instance
 
+			#templating
+			#controller.template is a reference to the controller class
+			#instance.templateInstance is a pageInstance
+			if instance.controller.template is not None:
+				instance.templateInstance = PageInstance(template_Page(instance.controller.template, instance))
+
+
+
 		#do the handling
 		if not self.requireAuthentication or pyForms.auth.authenticateRequest(request, response, instance):
-			pageResponseCode = instance.renderRequest(request, response)
+			if instance.templateInstance:
+				pageResponseCode = instance.templateInstance.renderRequest(request, response)
+			else:
+				pageResponseCode = instance.renderRequest(request, response)
 			if not response.isLocked:
 				response.write(pageResponseCode)
 				response.end()
@@ -37,19 +48,25 @@ class Page():
 
 
 
+class template_Page(Page):
+	def __init__(self, clsController, innerPageInstance):
+		super().__init__(clsController)
+		self.innerPageInstance = innerPageInstance
 
 #------------------------------------------------------------------------------------
 
 
-
-
-
 class PageInstance():
 	def __init__(self, page):
-		self.id = str(random.randint(100000, 999999))
+		if isinstance(page, template_Page):
+			#have the template use the same page instance id as the content, so postbacks work
+			self.id = page.innerPageInstance.id
+		else:
+			self.id = str(random.randint(100000, 999999))
 		self.page = page
 		self.controller = None
 		self.controlsReferenceObj = controlsReference(self)
+		self.templateInstance = None
 
 		self.controls = {}
 

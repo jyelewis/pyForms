@@ -1,4 +1,4 @@
-import pyForms.PageController
+import pyForms
 
 class Controller(pyForms.PageController):
 	def setHTMLFile(self):

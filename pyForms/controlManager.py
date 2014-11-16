@@ -8,6 +8,7 @@ def registerControl(controlName, control):
 
 
 #register controls
+
 import pyForms.controls.Textbox
 registerControl("Textbox", pyForms.controls.Textbox.Control)
 
@@ -40,5 +41,8 @@ registerControl("LinkButton", pyForms.controls.LinkButton.Control)
 
 import pyForms.controls.include
 registerControl("include", pyForms.controls.include.Control)
+
+import pyForms.controls.Content
+registerControl("Content", pyForms.controls.Content.Control)
 
 

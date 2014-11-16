@@ -1,6 +1,9 @@
+import pyForms.PageClasses
+
 class PageController:
 	def __init__(self, page):
 		self.page = page
+		self.template = None
 
 	def onInit(self, ctrls):
 		pass
@@ -26,3 +29,7 @@ class PageController:
 		file.close()
 		
 		return retValue
+
+
+class TemplateController(PageController):
+	pass

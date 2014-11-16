@@ -1,4 +1,4 @@
-import pyForms.PageController
+import pyForms
 import cgi
 
 class Controller(pyForms.PageController):

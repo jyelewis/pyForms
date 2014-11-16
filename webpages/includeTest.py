@@ -1,4 +1,4 @@
-import pyForms.PageController
+import pyForms
 import random
 import cgi
 
