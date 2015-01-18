@@ -55,10 +55,9 @@ class Control(pyForms.ControlBase.Base):
 				button.attributes['onclick'] = "pyForms_validate_"+str(self.validationGroupID) + "(event);"
 
 	def onRequest(self):
-		self.pageInstance.request.causesValidation = True
 		for button in self.buttons:
-			if button.wasClicked and not button.causesValidation:
-				self.pageInstance.request.causesValidation = False
+			if button.wasClicked and button.causesValidation:
+				self.pageInstance.request.causesValidation = True
 
 		for child in self.children:
 			child.onRequest()

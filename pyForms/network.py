@@ -10,6 +10,7 @@ class Request():
 		self.get = {}
 		self.post = {}
 		self.isValid = True
+		self.causesValidation = False
 
 		self._isPostBack = None
 

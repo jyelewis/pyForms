@@ -15,10 +15,22 @@ class Controller(pyForms.PageController):
 		ctrls.lpItems.append("")
 		ctrls.lpItems.reconfigure()
 
+	def btnNew2_click(self, ctrls):
+		ctrls.lpItems2.append("")
+		ctrls.lpItems2.reconfigure()
+
 	def lpItems_configureLoop(self, ctrls, loopCtrls, item, index):
 		def clickHandler():
 			ctrls.lpItems.remove(index)
 			ctrls.lpItems.reconfigure()
+
+		loopCtrls.btnDelete.clickHandler = clickHandler
+		loopCtrls.valTbx.control = loopCtrls.tbx
+
+	def lpItems2_configureLoop(self, ctrls, loopCtrls, item, index):
+		def clickHandler():
+			ctrls.lpItems2.remove(index)
+			ctrls.lpItems2.reconfigure()
 
 		loopCtrls.btnDelete.clickHandler = clickHandler
 		loopCtrls.valTbx.control = loopCtrls.tbx
