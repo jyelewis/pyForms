@@ -53,6 +53,10 @@ redirectPage = pyForms.Page(webpages.redirect.Controller)
 import webpages.templateTest
 templateTestPage = pyForms.Page(webpages.templateTest.Controller)
 
+import webpages.anonValidators
+anonValidatorPage = pyForms.Page(webpages.anonValidators.Controller)
+
+
 #START WEB SERVERY STUFF
 import tornado.ioloop
 import tornado.web
@@ -74,6 +78,7 @@ application = tornado.web.Application([
     (r"/includeTest", pyForms.tornadoHandler(includeTestPage)),
     (r"/redirect", pyForms.tornadoHandler(redirectPage)),
     (r"/templateTest", pyForms.tornadoHandler(templateTestPage)),
+    (r"/anonValidators", pyForms.tornadoHandler(anonValidatorPage)),
 ])
 
 portNumber = sys.argv[1] if len(sys.argv) > 1 else 8888

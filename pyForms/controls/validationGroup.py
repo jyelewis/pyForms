@@ -66,6 +66,7 @@ class Control(pyForms.ControlBase.Base):
 		self.configureControls()
 
 		for validator in self.validators:
+			print(validator)
 			validator.attributes['id'] = validator.control.attributes['id'] + "_validator_" + str(self.validatorIndexCount)
 			self.validatorIndexCount += 1
 			if not validator.hasInited:
