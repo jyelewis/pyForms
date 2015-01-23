@@ -66,7 +66,9 @@ class Control(pyForms.ControlBase.Base):
 		self.configureControls()
 
 		for validator in self.validators:
-			print(validator)
+			if 'id' not in validator.control.attributes:
+				validator.control.attributes['id'] = "anon"
+
 			validator.attributes['id'] = validator.control.attributes['id'] + "_validator_" + str(self.validatorIndexCount)
 			self.validatorIndexCount += 1
 			if not validator.hasInited:
